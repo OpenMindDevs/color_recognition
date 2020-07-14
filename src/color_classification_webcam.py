@@ -18,24 +18,25 @@ import cv2
 import PIL.Image
 import PIL.ImageTk
 import time
+import imutils
 
 prediction= "n.a"
 
 class App:
-    def __init__(self, window, window_title, video_source=0):
+    def __init__(self, window, window_title, video_source='http://192.168.1.5:8080/video'):
         self.training()
         self.window = window
         self.window.title(window_title)
 
-        self.window.rowconfigure(0, minsize=800, weight=1)
-        self.window.columnconfigure(0, minsize=800, weight=1)
+        self.window.rowconfigure(0,  weight=1)
+        self.window.columnconfigure(0, weight=1)
 
         self.video_source = video_source
         # open video source (by default this will try to open the computer webcam)
         self.vid = MyVideoCapture(self.video_source)
 
          # Create a canvas that can fit the above video source size
-        self.canvas = tkinter.Canvas(window, width = self.vid.width, height = self.vid.height)
+        self.canvas = tkinter.Canvas(window, width = 480, bg="red")
         self.canvas.grid(row=0,column=0)
         #self.canvas.pack()
 
@@ -99,7 +100,7 @@ class App:
     ##
  
 class MyVideoCapture:
-    def __init__(self, video_source=0):
+    def __init__(self, video_source='http://192.168.1.5:8080/video'):
         # Open the video source
         self.vid = cv2.VideoCapture(video_source)
         if not self.vid.isOpened():
@@ -112,6 +113,7 @@ class MyVideoCapture:
     def get_frame(self):
         if self.vid.isOpened():
             ret, frame = self.vid.read()
+            frame = imutils.resize(frame, width=480, height=480)
             global prediction
             prediction = knn_classifier.main('training.data', 'test.data')
             if ret:
