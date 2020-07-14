@@ -19,10 +19,26 @@ import PIL.Image
 import PIL.ImageTk
 import time
 import imutils
+import requests
 
 prediction= "n.a"
 
 class App:
+
+    #########FUNCION TRADUCIR################################
+    
+    def Traduccion(self, source, target, text):
+        parametros = {'sl': source, 'tl': target, 'q': text}
+        cabeceras = {"Charset":"UTF-8","User-Agent":"AndroidTranslate/5.3.0.RC02.130475354-53000263 5.1 phone TRANSLATE_OPM5_TEST_1"}
+        url = "https://translate.google.com/translate_a/single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e"
+        response = requests.post(url, data=parametros, headers=cabeceras)
+        if response.status_code == 200:
+            for x in response.json()['sentences']:
+                return x['trans']
+        else:
+            return "Ocurrió un error"
+    ##############################################################
+
     def __init__(self, window, window_title, video_source='http://192.168.1.5:8080/video'):
         self.training()
         self.window = window
@@ -37,7 +53,7 @@ class App:
 
          # Create a canvas that can fit the above video source size
         self.canvas = tkinter.Canvas(window, width = 480, bg="red")
-        self.canvas.grid(row=0,column=0)
+        self.canvas.grid(rowspan=9,column=0)
         #self.canvas.pack()
 
         #creacion de un frame para manejar botones con grid
@@ -51,10 +67,11 @@ class App:
         #Boton para imprimir color encontrado
         self.btn_color=tkinter.Button(window, text="Captura color", width=40, command=self.color)
         #self.btn_color.pack(anchor=tkinter.CENTER, expand=True)
-
+        self.nameApp = tkinter.Label(window, text="Color Recognition")
         #botones disposicion
-        self.btn_snapshot.grid(row=0, column=1, sticky=S, padx=5)
-        self.btn_color.grid(row=1, column=1, sticky=S, padx=5)
+        self.nameApp.grid(row=0, column=1)
+        self.btn_snapshot.grid(row=1, column=1, padx=5)
+        self.btn_color.grid(row=2, column=1, sticky=S, padx=5)
 
          
         # After it is called once, the update method will be automatically called every delay milliseconds
@@ -73,7 +90,24 @@ class App:
  
     def color(self):
         print("Estoy viendo el color:" + prediction)
-        Label(self.window, text="__"+prediction+"__").grid(row=1, sticky=N)
+        en=prediction
+        es=self.Traduccion("en","es",prediction)
+        fr=self.Traduccion("en","fr",prediction)
+        ge=self.Traduccion("en","ge",prediction)
+        pt=self.Traduccion("en","pt",prediction)
+        it=self.Traduccion("en","it",prediction)
+        Label(self.window, text="English: "+en).grid(row=3, column=1, sticky=N)
+        Label(self.window, text="Spanish: "+es).grid(row=4, column=1, sticky=N)
+        Label(self.window, text="French: "+fr).grid(row=5, column=1, sticky=N)
+        Label(self.window, text="German: "+ge).grid(row=6, column=1, sticky=N)
+        Label(self.window, text="Portuguese: "+pt).grid(row=7, column=1, sticky=N)
+        Label(self.window, text="Italian: "+it).grid(row=8, column=1, sticky=N)
+        Button(self.window, text="play", width=20).grid(row=3, column=2)
+        Button(self.window, text="play", width=20 ).grid(row=4, column=2)
+        Button(self.window, text="play", width=20 ).grid(row=5, column=2)
+        Button(self.window, text="play", width=20 ).grid(row=6, column=2)
+        Button(self.window, text="play", width=20 ).grid(row=7, column=2)
+        Button(self.window, text="play", width=20 ).grid(row=8, column=2)
 
     def update(self):
          # Get a frame from the video source
