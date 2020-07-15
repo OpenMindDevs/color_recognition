@@ -20,6 +20,8 @@ import PIL.ImageTk
 import time
 import imutils
 import requests
+from gtts import gTTS
+from pygame import mixer
 
 prediction= "n.a"
 
@@ -87,6 +89,19 @@ class App:
         if ret:
             cv2.imwrite("frame-" + time.strftime("%d-%m-%Y-%H-%M-%S") + ".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             print("pantalla capturada")
+
+    def reproducir(self, texto, language):
+        NOMBRE_ARCHIVO = "sound.mp3"
+        tts = gTTS(texto, lang=language)
+        # Nota: podríamos llamar directamente a save
+        with open(NOMBRE_ARCHIVO, "wb") as archivo:
+            tts.write_to_fp(archivo)
+
+        #playsound(NOMBRE_ARCHIVO)  
+        print("estoy escuchando "+texto) 
+        mixer.init()
+        mixer.music.load(NOMBRE_ARCHIVO)
+        mixer.music.play()    
  
     def color(self):
         print("Estoy viendo el color:" + prediction)
@@ -102,12 +117,12 @@ class App:
         Label(self.window, text="German: "+ge).grid(row=6, column=1, sticky=N)
         Label(self.window, text="Portuguese: "+pt).grid(row=7, column=1, sticky=N)
         Label(self.window, text="Italian: "+it).grid(row=8, column=1, sticky=N)
-        Button(self.window, text="play", width=20).grid(row=3, column=2)
-        Button(self.window, text="play", width=20 ).grid(row=4, column=2)
-        Button(self.window, text="play", width=20 ).grid(row=5, column=2)
-        Button(self.window, text="play", width=20 ).grid(row=6, column=2)
-        Button(self.window, text="play", width=20 ).grid(row=7, column=2)
-        Button(self.window, text="play", width=20 ).grid(row=8, column=2)
+        Button(self.window, text="play", width=20 ,command=lambda : self.reproducir(en,"en-us")).grid(row=3, column=2)
+        Button(self.window, text="play", width=20 ,command=lambda : self.reproducir(es,"es-us")).grid(row=4, column=2)
+        Button(self.window, text="play", width=20 ,command=lambda : self.reproducir(fr,"fr")).grid(row=5, column=2)
+        Button(self.window, text="play", width=20 ,command=lambda : self.reproducir(ge,"de")).grid(row=6, column=2)
+        Button(self.window, text="play", width=20 ,command=lambda : self.reproducir(pt,"pt")).grid(row=7, column=2)
+        Button(self.window, text="play", width=20 ,command=lambda : self.reproducir(it,"it")).grid(row=8, column=2)
 
     def update(self):
          # Get a frame from the video source
