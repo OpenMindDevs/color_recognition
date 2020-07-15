@@ -41,7 +41,7 @@ class App:
             return "Ocurrió un error"
     ##############################################################
 
-    def __init__(self, window, window_title, video_source='http://192.168.1.5:8080/video'):
+    def __init__(self, window, window_title, video_source=0):
         self.training()
         self.window = window
         self.window.title(window_title)
@@ -149,7 +149,7 @@ class App:
     ##
  
 class MyVideoCapture:
-    def __init__(self, video_source='http://192.168.1.5:8080/video'):
+    def __init__(self, video_source=0):
         # Open the video source
         self.vid = cv2.VideoCapture(video_source)
         if not self.vid.isOpened():
