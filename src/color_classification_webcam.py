@@ -4,6 +4,27 @@
 # --- Author         : Ahmet Ozlu
 # --- Mail           : ahmetozlu93@gmail.com
 # --- Date           : 31st December 2017 - new year eve :)
+#  
+# MIT License
+
+# Copyright (c) 2018 Ozlu
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# ----------------------------------------------
+# El autor de una parte del codigo implementado fue contactado y se nos dio permiso de tulizarlo siempre y
+# cuando dieramos credito
+# Paul Silisteanu
+# sol-prog on Github
+# https://solarianprogrammer.com/2018/04/21/python-opencv-show-video-tkinter-window/
 # ----------------------------------------------
 
 #Librerias del repo original
